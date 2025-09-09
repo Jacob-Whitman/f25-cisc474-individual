@@ -1,0 +1,67 @@
+# Basic Model Diagram and Nouns
+
+## Major Nouns (Entities)
+
+### User
+- **Attributes:**  
+  - id  
+  - name  
+  - email  
+  - password  
+  - role [student, instructor, TA, admin]  
+
+### Course
+- **Attributes:**  
+  - id  
+  - title  
+  - description  
+  - status [active/archived]  
+  - instructorId  
+
+### Enrollment
+- **Description:** Links users ↔ courses  
+- **Attributes:**  
+  - id  
+  - userId  
+  - courseId  
+  - roleInCourse  
+
+### Assignment
+- **Attributes:**  
+  - id  
+  - courseId  
+  - title  
+  - descriptionMarkdown  
+  - dueDate  
+  - latePolicy  
+  - allowedSubmissionTypes  
+  - maxResubmissions  
+
+### Submission
+- **Attributes:**  
+  - id  
+  - assignmentId  
+  - studentId  
+  - timestamp  
+  - status [received, tested, graded]  
+  - versionNumber  
+
+### SubmissionFile
+- **Attributes:**  
+  - id  
+  - submissionId  
+  - filename  
+  - fileType [code, replay]  
+  - filePath  
+
+### Grade
+- **Attributes:**  
+  - id  
+  - submissionId  
+  - totalScore  
+  - released [true/false]  
+
+### FeedbackComment
+- **Attributes:**  
+  - id  
+  - submissionId
