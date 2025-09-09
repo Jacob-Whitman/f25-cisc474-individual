@@ -1,0 +1,59 @@
+# CISC 474 Individual Site Requirements Doc - Jacob Whitman
+
+---
+
+## 1.3 Target Audience
+
+- **Students**: Enroll in courses, view assignments, submit work, receive feedback and grades.  
+- **Instructors**: Create and manage courses, publish assignments, oversee grading, provide feedback.  
+- **TAs/Graders**: Assist in grading, run automated/manual tests, and provide comments.  
+- **Admins**: Manage users and system-level settings (create/disable accounts, archive courses).  
+
+---
+
+## 1.4 Definitions and Acronyms
+
+- **MVP**: Minimum Viable Product.  
+- **Submission Replay**: A unique submission type where students upload a terminal session recording (.cast) alongside their code.  
+- **Rubric**: A structured scoring template for grading assignments.  
+- **Public Tests**: Automated test cases visible to students after submission.  
+
+---
+
+## 2. Functional Requirements
+
+### 2.1 User Management
+- Registration with email and password.  
+- Login with role-based redirection to dashboards.  
+- Profile management (edit personal info, change password, set notification preferences).  
+
+### 2.2 Content Management
+**Courses**
+- Create, edit, archive, and join courses.  
+- Import/export rosters via CSV.  
+
+**Assignments**
+- Create/edit assignment specifications in markdown.  
+- Define deadlines, late policies, and allowed submission types.  
+- Attach automated test configurations.  
+
+**Submissions**
+- Upload files, paste code, or record terminal replays.  
+- Versioned submissions with timestamps.  
+- Automated test execution with pass/fail output.  
+- Feedback and grade display.  
+
+### 2.3 Search and Filtering
+- **Students**: Filter assignments by status (not started, submitted, graded).  
+- **Instructors/TAs**: Filter submissions by grading status (ungraded, needs review, graded).  
+- **Admins**: Search users and courses by name/email/status.  
+
+### 2.4 Reporting and Analytics
+- **Instructors/TAs**: View submission statistics (number submitted, grading progress, test pass rates).  
+- **Students**: See progress overview (completed vs. pending assignments).  
+- **Admins**: Access basic usage reports (active users, courses archived).  
+
+### 2.5 Application-Specific Features
+- **Unique Submission Type (Drawing):** Students can submit a drawing along with their assignment piece for designated assignments. Instructors/TAs can view and grade within the platform.  
+- **Rubric Grading:** Graders assign points based on rubric items and leave free-text comments.  
+- **Automated Testing:** Submissions run against instructor-defined public tests; hidden tests may be stubbed in later.  
