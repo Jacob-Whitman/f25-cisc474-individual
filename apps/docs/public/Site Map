@@ -1,0 +1,59 @@
+# LMS Site Map
+
+## Landing & Auth
+- `/` — Marketing/Info (optional)  
+- `/login`  
+- `/register`  
+
+---
+
+## Dashboards (role-based home)
+- `/dashboard` — auto-routes by role  
+- `/dashboard/student`  
+  - Enrolled Courses (cards, deadlines)  
+- `/dashboard/instructor`  
+  - Owned Courses (cards, grading to-dos)  
+- `/dashboard/ta`  
+  - Grading Queue (filters)  
+- `/dashboard/admin`  
+  - Quick Admin Actions  
+
+---
+
+## Course
+- `/courses`  
+  - Browse current courses  
+- `/courses/:courseId`  
+  - **Overview** — description, announcements  
+  - **Assignments**  
+    - `/courses/:courseId/assignments/:assignmentId`  
+      - Spec (markdown, due/late policy)  
+      - Student Submissions (history + results)  
+      - New Submission  
+        - File Editor/Upload  
+        - Drawing Box upload  
+  - **Submissions (staff view)**  
+    - `/courses/:courseId/assignments/:assignmentId/submissions`  
+      - Submission Detail (run tests, rubric, feedback)  
+  - **Roster (instructor/TA)**  
+  - **Settings (instructor)**  
+    - Course Info / ability to modify page  
+
+---
+
+## Grading (subsection of dashboard for TAs and instructors)
+- `/grading/queue` — across all courses  
+- `/grading/submissions/:submissionId` — submission detail  
+
+---
+
+## Admin
+- `/admin/users` — create/disable/reset users  
+- `/admin/courses` — archive/restore courses  
+
+---
+
+## Profile / Account
+- `/profile` — personal info  
+- `/profile/password`  
+- `/profile/notifications`  
