@@ -9,8 +9,7 @@
         "build/**",
         ".vercel/**",
         "dist/**",
-        ".next/**",
-        "!.next/cache/**"
+        ".next/**"
       ]
     },
     "test": {
