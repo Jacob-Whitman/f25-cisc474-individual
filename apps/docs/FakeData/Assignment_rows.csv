@@ -1,0 +1,7 @@
+id,courseId,title,description,specMarkdown,points,dueAt,createdAt,updatedAt
+cmfoaxsl4001j87ese5xxo1jv,cmfoaxs2n000v87esjuc6z1qs,Homework 1 - Basics,Exercises on variables and control flow.,"# Homework 1
+Solve the problems...",100,2025-09-24 18:15:06.135,2025-09-17 18:15:06.233,2025-09-17 18:15:06.233
+cmfoaxsmf001l87es3vpsasft,cmfoaxs2n000v87esjuc6z1qs,Project 1 - Small App,Build a small web app.,"# Project 1
+Deliver a working app...",200,2025-10-01 18:15:06.135,2025-09-17 18:15:06.28,2025-09-17 18:15:06.28
+cmfoaxsnp001n87esnyw8geac,cmfoaxs2n000v87esjuc6z1qs,Optional Challenge,Extra credit challenges.,"# Optional Challenge
+Try the extra problems.",50,2025-10-08 18:15:06.135,2025-09-17 18:15:06.326,2025-09-17 18:15:06.326

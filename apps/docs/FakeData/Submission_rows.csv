@@ -1,0 +1,4 @@
+id,assignmentId,studentId,submittedAt,status,grade,feedback,filesJson
+cmfoaxsoy001p87esqhu4x6g3,cmfoaxsl4001j87ese5xxo1jv,cmfoaxrgh000987eso3gi4khq,2025-09-19 18:15:06.135,GRADED,92,Good work!,"{""files"":[""hw1_student1.zip""]}"
+cmfoaxsq8001r87eskez2kjwt,cmfoaxsl4001j87ese5xxo1jv,cmfoaxrj4000c87eslddtz6x3,2025-09-26 18:15:06.135,LATE,70,Late submission - partial credit.,"{""files"":[""hw1_student2.zip""]}"
+cmfoaxsre001t87eskasevt3y,cmfoaxsl4001j87ese5xxo1jv,cmfoaxro9000i87es03j711lj,2025-09-20 18:15:06.135,SUBMITTED,,,"{""files"":[""hw1_student4.zip""]}"

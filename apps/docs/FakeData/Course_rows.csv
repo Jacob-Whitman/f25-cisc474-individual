@@ -1,0 +1,4 @@
+id,code,title,description,isArchived,createdAt,updatedAt,ownerId
+cmfoaxs2n000v87esjuc6z1qs,CS101,Intro to Programming,Learn the basics of programming in Python and JS.,false,2025-09-17 18:15:05.567,2025-09-17 18:15:05.567,cmfoaxrbc000387esna065rmu
+cmfoaxs41000x87es49y3rwjh,HUM100,World Literature,A survey course. This course intentionally has no assignments yet.,false,2025-09-17 18:15:05.617,2025-09-17 18:15:05.617,cmfoaxr8i000087es8sehyb7n
+cmfoaxs5c000z87estz1t5cse,CS200,Algorithms,Intermediate algorithms course.,false,2025-09-17 18:15:05.664,2025-09-17 18:15:05.664,cmfoaxrbc000387esna065rmu
