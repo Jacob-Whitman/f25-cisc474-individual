@@ -1,8 +1,15 @@
 {
   "name": "@repo/database",
   "version": "1.0.0",
+  "main": "./dist/client.js",
+  "module": "./dist/client.mjs",
+  "types": "./dist/client.d.ts",
   "exports": {
-    ".": "./src/client.ts"
+    ".": {
+      "types": "./dist/client.d.ts",
+      "require": "./dist/client.js",
+      "import": "./dist/client.mjs"
+    }
   },
   "scripts": {
     "db:migrate:deploy": "prisma migrate deploy",
@@ -12,7 +19,9 @@
     "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
     "prisma:migrate": "prisma migrate dev --schema=prisma/schema.prisma",
     "prisma:push": "prisma db push --schema=prisma/schema.prisma",
-    "dev": "tsup src/* --watch",
+    "types": "tsc -p tsconfig.types.json",
+    "dev": "tsup src/* --format cjs,esm --watch --onSuccess \"npm run types\"",
+    "build": "tsup src/* --format cjs,esm && npm run types",
     "format": "prisma format",
     "generate": "prisma generate",
     "lint": "eslint . --max-warnings 0",
