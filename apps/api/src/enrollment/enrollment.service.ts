@@ -24,5 +24,15 @@ export class EnrollmentService {
       },
     });
   }
+
+  async getByUserId(userId: string): Promise<Enrollment[]> {
+    return this.prisma.enrollment.findMany({
+      where: { userId },
+      include: {
+        user: true,
+        course: true,
+      },
+    });
+  }
 }
 

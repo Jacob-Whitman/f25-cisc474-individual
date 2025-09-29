@@ -15,5 +15,10 @@ export class EnrollmentController {
   async getById(@Param('id') id: string): Promise<Enrollment | null> {
     return this.enrollmentService.getById(id);
   }
+
+  @Get('user/:userId')
+  async getByUserId(@Param('userId') userId: string): Promise<Enrollment[]> {
+    return this.enrollmentService.getByUserId(userId);
+  }
 }
 

@@ -15,4 +15,9 @@ export class PostController {
   async getById(@Param('id') id: string): Promise<Post | null> {
     return this.postService.getById(id);
   }
+
+  @Get('user/:userId')
+  async getByUserId(@Param('userId') userId: string): Promise<Post[]> {
+    return this.postService.getByUserId(userId);
+  }
 }

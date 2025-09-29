@@ -24,5 +24,15 @@ export class SubmissionService {
       },
     });
   }
+
+  async getByUserId(userId: string): Promise<Submission[]> {
+    return this.prisma.submission.findMany({
+      where: { studentId: userId },
+      include: {
+        assignment: true,
+        student: true,
+      },
+    });
+  }
 }
 

@@ -26,5 +26,16 @@ export class PostService {
       },
     });
   }
+
+  async getByUserId(userId: string): Promise<Post[]> {
+    return this.prisma.post.findMany({
+      where: { authorId: userId },
+      include: {
+        author: true,
+        category: true,
+        comments: true,
+      },
+    });
+  }
 }
 

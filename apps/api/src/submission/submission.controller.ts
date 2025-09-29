@@ -15,5 +15,10 @@ export class SubmissionController {
   async getById(@Param('id') id: string): Promise<Submission | null> {
     return this.submissionService.getById(id);
   }
+
+  @Get('user/:userId')
+  async getByUserId(@Param('userId') userId: string): Promise<Submission[]> {
+    return this.submissionService.getByUserId(userId);
+  }
 }
 
