@@ -8,8 +8,4 @@
     "noEmit": false
   },
   "include": ["src", "generated"] // include your generator output
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> upstream/main
