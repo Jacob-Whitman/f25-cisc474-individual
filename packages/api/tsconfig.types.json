@@ -7,9 +7,5 @@
     "composite": false,
     "noEmit": false
   },
-  "include": ["src", "generated"] // include your generator output
-<<<<<<< HEAD
+  "include": ["src"] // include your generator output
 }
-=======
-}
->>>>>>> upstream/main
