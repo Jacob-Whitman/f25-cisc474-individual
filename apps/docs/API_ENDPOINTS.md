@@ -9,7 +9,7 @@ This document contains links to all deployed API endpoints for the LMS (Learning
 ## Production URLs (Render Deployment)
 
 ### Main Site (Web App)
-- [Main Site](https://f25-cisc474-individual-2.onrender.com) - Your deployed Next.js web application
+- [Main Site](https://f25-cisc474-individual-2.onrender.com) - Your deployed TanStack Start web application
 
 ### API Endpoints (Backend)
 - [GET Root](https://f25-cisc474-individual-2.onrender.com/) - Health check endpoint
