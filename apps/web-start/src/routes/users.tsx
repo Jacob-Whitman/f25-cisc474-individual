@@ -3,29 +3,28 @@ import { useQuery } from '@tanstack/react-query';
 import { backendFetcher } from '../integrations/fetcher';
 import { Suspense } from 'react';
 
-export const Route = createFileRoute('/courses')({
-  component: CoursesPage,
+export const Route = createFileRoute('/users')({
+  component: UsersPage,
 });
 
-interface Course {
+interface User {
   id: string;
-  title: string;
-  description: string | null;
-  instructorId: string;
+  email: string;
+  name: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
 
-function CoursesPage() {
+function UsersPage() {
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Courses</h1>
+      <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Users</h1>
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem', color: 'var(--foreground)' }}>
-        Browse all available courses from the backend API.
+        View all users from the backend API.
       </p>
       
       <Suspense fallback={<LoadingFallback />}>
-        <CoursesList />
+        <UsersList />
       </Suspense>
       
       <p style={{ marginTop: '2rem' }}>
@@ -59,15 +58,15 @@ function LoadingFallback() {
       color: 'var(--foreground)',
       opacity: 0.7
     }}>
-      Loading courses...
+      Loading users...
     </div>
   );
 }
 
-function CoursesList() {
-  const { data: courses, isLoading, error } = useQuery({
-    queryKey: ['courses'],
-    queryFn: backendFetcher<Course[]>('/courses'),
+function UsersList() {
+  const { data: users, isLoading, error } = useQuery({
+    queryKey: ['users'],
+    queryFn: backendFetcher<User[]>('/users'),
   });
 
   if (isLoading) {
@@ -82,12 +81,12 @@ function CoursesList() {
         color: 'red',
         fontSize: '1.1rem'
       }}>
-        Error loading courses: {error.message}
+        Error loading users: {error.message}
       </div>
     );
   }
 
-  if (!courses || courses.length === 0) {
+  if (!users || users.length === 0) {
     return (
       <div style={{ 
         padding: '2rem', 
@@ -95,16 +94,16 @@ function CoursesList() {
         color: 'var(--foreground)',
         opacity: 0.7
       }}>
-        No courses found.
+        No users found.
       </div>
     );
   }
 
   return (
     <div style={{ display: 'grid', gap: '1rem' }}>
-      {courses.map((course) => (
+      {users.map((user) => (
         <div 
-          key={course.id}
+          key={user.id}
           style={{
             border: '1px solid var(--foreground)',
             borderRadius: '0.5rem',
@@ -126,25 +125,23 @@ function CoursesList() {
             marginBottom: '0.5rem',
             color: 'var(--foreground)'
           }}>
-            {course.title}
+            {user.name || 'Unnamed User'}
           </h3>
-          {course.description && (
-            <p style={{ 
-              marginBottom: '1rem',
-              color: 'var(--foreground)',
-              opacity: 0.8
-            }}>
-              {course.description}
-            </p>
-          )}
+          <p style={{ 
+            marginBottom: '1rem',
+            color: 'var(--foreground)',
+            opacity: 0.8,
+            fontSize: '1.1rem'
+          }}>
+            {user.email}
+          </p>
           <div style={{ 
             fontSize: '0.9rem',
             color: 'var(--foreground)',
             opacity: 0.6
           }}>
-            <p>Course ID: {course.id}</p>
-            <p>Instructor ID: {course.instructorId}</p>
-            <p>Created: {new Date(course.createdAt).toLocaleDateString()}</p>
+            <p>User ID: {user.id}</p>
+            <p>Created: {new Date(user.createdAt).toLocaleDateString()}</p>
           </div>
         </div>
       ))}

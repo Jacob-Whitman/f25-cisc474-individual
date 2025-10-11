@@ -63,7 +63,25 @@ function HomePage() {
             onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
             onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
           >
-            Go to Courses
+            📚 View Courses (Backend Data)
+          </Link>
+        </li>
+        <li style={{ marginBottom: '1rem' }}>
+          <Link 
+            to="/users" 
+            style={{ 
+              display: 'inline-block',
+              padding: '0.75rem 1.5rem',
+              backgroundColor: 'var(--foreground)',
+              color: 'var(--background)',
+              borderRadius: '0.5rem',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          >
+            👥 View Users (Backend Data)
           </Link>
         </li>
         <li style={{ marginBottom: '1rem' }}>
