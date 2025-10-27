@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { backendFetcher, backendPost, backendPut, backendDelete } from '../integrations/fetcher';
+import { useApi } from '../integrations/api';
 import { Suspense, useState } from 'react';
 import { CourseDto, CreateCourseDto, UpdateCourseDto } from '@repo/api';
+import { useAuth0 } from '@auth0/auth0-react';
+import { LogoutButton } from '../components/LogoutButton';
 
 export const Route = createFileRoute('/courses')({
   component: CoursesPage,
@@ -11,12 +13,33 @@ export const Route = createFileRoute('/courses')({
 // Using CourseDto from the API package instead of local interface
 
 function CoursesPage() {
+  const { isAuthenticated, isLoading } = useAuth0();
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingCourse, setEditingCourse] = useState<CourseDto | null>(null);
 
+  if (isLoading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <h1>Please log in to access this page</h1>
+        <Link to="/">Go to Home</Link>
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Courses</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '2.5rem', margin: 0 }}>Courses</h1>
+        <LogoutButton />
+      </div>
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem', color: 'var(--foreground)' }}>
         Browse and manage all available courses from the backend API.
       </p>
@@ -93,9 +116,11 @@ function LoadingFallback() {
 }
 
 function CoursesList({ onEdit }: { onEdit: (course: CourseDto) => void }) {
+  const { apiCall } = useApi();
+  
   const { data: courses, isLoading, error } = useQuery({
     queryKey: ['courses'],
-    queryFn: backendFetcher<CourseDto[]>('/courses'),
+    queryFn: () => apiCall<CourseDto[]>('/courses'),
   });
 
   if (isLoading) {
@@ -138,10 +163,11 @@ function CoursesList({ onEdit }: { onEdit: (course: CourseDto) => void }) {
 }
 
 function CourseCard({ course, onEdit }: { course: CourseDto; onEdit: (course: CourseDto) => void }) {
+  const { apiCall } = useApi();
   const queryClient = useQueryClient();
   
   const deleteMutation = useMutation({
-    mutationFn: () => backendDelete(`/courses/${course.id}`)(),
+    mutationFn: () => apiCall(`/courses/${course.id}`, { method: 'DELETE' }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['courses'] });
     },
@@ -254,6 +280,7 @@ function CourseCard({ course, onEdit }: { course: CourseDto; onEdit: (course: Co
 }
 
 function CreateCourseForm({ onClose }: { onClose: () => void }) {
+  const { apiCall } = useApi();
   const [formData, setFormData] = useState<CreateCourseDto>({
     code: '',
     title: '',
@@ -264,7 +291,10 @@ function CreateCourseForm({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
   
   const createMutation = useMutation({
-    mutationFn: () => backendPost<CourseDto>('/courses', formData)(),
+    mutationFn: () => apiCall<CourseDto>('/courses', { 
+      method: 'POST',
+      body: JSON.stringify(formData)
+    }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['courses'] });
       onClose();
@@ -419,6 +449,7 @@ function CreateCourseForm({ onClose }: { onClose: () => void }) {
 }
 
 function EditCourseForm({ course, onClose }: { course: CourseDto; onClose: () => void }) {
+  const { apiCall } = useApi();
   const [formData, setFormData] = useState<UpdateCourseDto>({
     code: course.code,
     title: course.title,
@@ -430,7 +461,10 @@ function EditCourseForm({ course, onClose }: { course: CourseDto; onClose: () =>
   const queryClient = useQueryClient();
   
   const updateMutation = useMutation({
-    mutationFn: () => backendPut<CourseDto>(`/courses/${course.id}`, formData)(),
+    mutationFn: () => apiCall<CourseDto>(`/courses/${course.id}`, { 
+      method: 'PUT',
+      body: JSON.stringify(formData)
+    }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['courses'] });
       onClose();

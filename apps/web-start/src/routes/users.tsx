@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import { backendFetcher } from '../integrations/fetcher';
+import { useApi } from '../integrations/api';
 import { Suspense } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { LogoutButton } from '../components/LogoutButton';
 
 export const Route = createFileRoute('/users')({
   component: UsersPage,
@@ -16,9 +18,31 @@ interface User {
 }
 
 function UsersPage() {
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <h1>Please log in to access this page</h1>
+        <Link to="/">Go to Home</Link>
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Users</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '2.5rem', margin: 0 }}>Users</h1>
+        <LogoutButton />
+      </div>
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem', color: 'var(--foreground)' }}>
         View all users from the backend API.
       </p>
@@ -64,9 +88,11 @@ function LoadingFallback() {
 }
 
 function UsersList() {
+  const { apiCall } = useApi();
+  
   const { data: users, isLoading, error } = useQuery({
     queryKey: ['users'],
-    queryFn: backendFetcher<User[]>('/users'),
+    queryFn: () => apiCall<User[]>('/users'),
   });
 
   if (isLoading) {

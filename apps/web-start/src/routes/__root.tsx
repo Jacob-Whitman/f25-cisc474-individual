@@ -5,6 +5,7 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Scripts,
+  Link,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { TanStackDevtools } from '@tanstack/react-devtools';
@@ -56,8 +57,41 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
 
+  notFoundComponent: NotFoundComponent,
   shellComponent: RootDocument,
 });
+
+function NotFoundComponent() {
+  return (
+    <div style={{ 
+      padding: '2rem', 
+      textAlign: 'center',
+      maxWidth: '600px',
+      margin: '0 auto'
+    }}>
+      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Page Not Found</h1>
+      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', color: 'var(--foreground)' }}>
+        The page you're looking for doesn't exist.
+      </p>
+      <Link 
+        to="/" 
+        style={{ 
+          display: 'inline-block',
+          padding: '0.75rem 1.5rem',
+          backgroundColor: 'var(--foreground)',
+          color: 'var(--background)',
+          borderRadius: '0.5rem',
+          textDecoration: 'none',
+          transition: 'opacity 0.2s'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+        onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+      >
+        Go Home
+      </Link>
+    </div>
+  );
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (

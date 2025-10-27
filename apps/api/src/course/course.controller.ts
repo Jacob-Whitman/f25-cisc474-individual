@@ -1,6 +1,9 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CourseService } from './course.service';
 import { Course } from '@repo/database';
+import { CurrentUser } from '../auth/current-user.decorator';
+import { JwtUser } from '../auth/jwt.strategy';
 // Temporary relative import until module resolution is fixed
 interface CreateCourseDto {
   code: string;
@@ -18,11 +21,12 @@ interface UpdateCourseDto {
 }
 
 @Controller('courses')
+@UseGuards(AuthGuard('jwt'))
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Get()
-  async getAll(): Promise<Course[]> {
+  async getAll(@CurrentUser() user: JwtUser): Promise<Course[]> {
     return this.courseService.getAll();
   }
 
@@ -32,7 +36,7 @@ export class CourseController {
   }
 
   @Post()
-  async create(@Body() createCourseDto: CreateCourseDto): Promise<Course> {
+  async create(@Body() createCourseDto: CreateCourseDto, @CurrentUser() user: JwtUser): Promise<Course> {
     return this.courseService.create(createCourseDto);
   }
 
