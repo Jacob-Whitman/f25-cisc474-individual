@@ -22,13 +22,21 @@ export class CourseService {
   constructor(private prisma: PrismaService) {}
 
   async getAll(): Promise<Course[]> {
-    return this.prisma.course.findMany({
-      include: {
-        owner: true,
-        enrollments: true,
-        assignments: true,
-      },
-    });
+    try {
+      console.log('CourseService.getAll() called');
+      const courses = await this.prisma.course.findMany({
+        include: {
+          owner: true,
+          enrollments: true,
+          assignments: true,
+        },
+      });
+      console.log('Courses found:', courses.length);
+      return courses;
+    } catch (error) {
+      console.error('Error in CourseService.getAll():', error);
+      throw error;
+    }
   }
 
   async getById(id: string): Promise<Course | null> {

@@ -27,7 +27,15 @@ export class CourseController {
 
   @Get()
   async getAll(@CurrentUser() user: JwtUser): Promise<Course[]> {
-    return this.courseService.getAll();
+    try {
+      console.log('CourseController.getAll() called by user:', user.userId);
+      const courses = await this.courseService.getAll();
+      console.log('CourseController.getAll() returning:', courses.length, 'courses');
+      return courses;
+    } catch (error) {
+      console.error('Error in CourseController.getAll():', error);
+      throw error;
+    }
   }
 
   @Get(':id')

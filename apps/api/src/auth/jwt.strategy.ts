@@ -32,6 +32,13 @@ function splitSub(sub: string) {
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly prisma: PrismaService) {
+    console.log('=== JWT STRATEGY CONSTRUCTOR - NEW CODE ===');
+    console.log('JWT Strategy Configuration:', {
+      issuer: process.env.AUTH0_ISSUER_URL,
+      audience: process.env.AUTH0_AUDIENCE,
+      jwksUri: `${process.env.AUTH0_ISSUER_URL}.well-known/jwks.json`,
+    });
+
     super({
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
@@ -48,44 +55,31 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<JwtUser> {
+    console.log('=== NEW JWT STRATEGY CODE RUNNING ===');
     // You can see the JWT here
-    // console.log('JWT payload', payload);
+    console.log('JWT payload', payload);
 
     const { sub } = payload;
     const { provider, providerId } = splitSub(sub);
 
-    // For now, we'll create a simple user based on the Auth0 sub
-    // In a real implementation, you might want to store the provider/providerId mapping
-    // For this basic setup, we'll use the sub as a unique identifier
+    // Create a unique email based on the Auth0 sub
+    const uniqueEmail = `${sub}@auth0.local`;
     
-    // Try to find an existing user by email (if available in payload) or create a new one
-    let user;
-    try {
-      // If there's an email in the payload, try to find by email
-      if (payload.email) {
-        user = await this.prisma.user.findUnique({
-          where: { email: payload.email },
-        });
-      }
-      
-      // If no user found, create a new one
-      if (!user) {
-        user = await this.prisma.user.create({
-          data: {
-            email: payload.email || `${providerId}@${provider}.local`,
-            // You might want to add more fields from the JWT payload
-          },
-        });
-      }
-    } catch (error) {
-      // If there's an error (e.g., email already exists), try to find by a different method
-      // For now, we'll create a user with a unique email based on the sub
-      user = await this.prisma.user.create({
-        data: {
-          email: `${sub}@auth0.local`,
-        },
-      });
-    }
+    console.log('JWT Strategy: Creating/finding user with email:', uniqueEmail);
+    
+    // Use upsert to handle existing users gracefully
+    const user = await this.prisma.user.upsert({
+      where: { email: uniqueEmail },
+      update: {
+        // Update any fields if needed
+        updatedAt: new Date(),
+      },
+      create: {
+        email: uniqueEmail,
+      },
+    });
+
+    console.log('JWT Strategy: User found/created:', user.id);
 
     return {
       userId: user.id,
