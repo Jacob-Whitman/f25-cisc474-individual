@@ -7,7 +7,14 @@ export const Route = createFileRoute('/home')({
 });
 
 function HomePage() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, error } = useAuth0();
+
+  console.log('Home page auth state:', {
+    isAuthenticated,
+    isLoading,
+    error: error?.message,
+    user: user ? { name: user.name, email: user.email, sub: user.sub } : null,
+  });
 
   if (isLoading) {
     return (
@@ -17,10 +24,21 @@ function HomePage() {
     );
   }
 
+  if (error) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <h1 style={{ color: 'red' }}>Authentication Error</h1>
+        <p>Error: {error.message}</p>
+        <Link to="/">Go to Home</Link>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <div style={{ padding: '2rem', textAlign: 'center' }}>
         <h1>Please log in to access this page</h1>
+        <p>You are not authenticated. Please try logging in again.</p>
         <Link to="/">Go to Home</Link>
       </div>
     );

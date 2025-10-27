@@ -4,7 +4,7 @@ export function useApi() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   const apiCall = async <T>(endpoint: string, options: RequestInit = {}): Promise<T> => {
-    const baseUrl = import.meta.env.VITE_BACKEND_URL || import.meta.env.BACKEND_URL;
+    const baseUrl = 'https://f25-cisc474-individual-2.onrender.com';
     
     if (!isAuthenticated) {
       throw new Error('User is not authenticated');

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { LoginButton } from '../components/LoginButton';
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
@@ -11,6 +12,11 @@ function LoginPage() {
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem', color: 'var(--foreground)' }}>
         Sign in to access your courses and dashboard.
       </p>
+      
+      <div style={{ marginBottom: '2rem' }}>
+        <LoginButton />
+      </div>
+      
       <p style={{ marginTop: '2rem' }}>
         <Link 
           to="/" 
